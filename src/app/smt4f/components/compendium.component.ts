@@ -6,6 +6,10 @@ import { FusionDataService } from '../fusion-data.service';
 import { translateComp } from '../../compendium/models/translator';
 import Translations from  '../../compendium/data/translations.json';
 
+export function hasRecipeGenerator(compConfig: CompendiumConfig): boolean {
+  return compConfig.maxSkillSlots !== 0 && !compConfig.appCssClasses.includes('smtsj');
+}
+
 function makeOtherLinks(compConfig: CompendiumConfig): { title: string, link: string }[] {
   return compConfig.maxSkillSlots === 0 ? [] : compConfig.appCssClasses.includes('smtsj') ?
     [{ title: 'Passwords', link: 'passwords' }] :

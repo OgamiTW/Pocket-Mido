@@ -1,0 +1,11 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Wrong or missing compendium data
+    url: https://github.com/aqiu384/megaten-fusion-tool/issues
+    about: >-
+      Demon stats, skills, fusion charts and recipes come from the original
+      project and are not changed here. Reporting them upstream fixes them for
+      everyone, including this fork.
+  - name: The original tool
+    url: https://aqiu384.github.io/megaten-fusion-tool/
+    about: Everything here is built on top of it. Worth a look if you have not seen it.

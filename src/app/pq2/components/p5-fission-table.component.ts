@@ -4,9 +4,10 @@ import { splitWithTreasure } from '../../compendium/fusions/per-nonelem-fissions
 import { FusionEntryTableComponent } from '../../compendium/components/fusion-entry-table.component';
 import { FusionPairTableComponent } from '../../compendium/components/fusion-pair-table.component';
 import { TranslateCompPipe } from '../../compendium/pipes';
+import { SpoilerComponent } from '../../compendium/components/spoiler.component';
 
 @Component({
-  imports: [FusionEntryTableComponent, FusionPairTableComponent, TranslateCompPipe],
+  imports: [FusionEntryTableComponent, FusionPairTableComponent, SpoilerComponent, TranslateCompPipe],
   templateUrl: '../../compendium/components/smt-fission-table.component.html'
 })
 export class P5FissionTableComponent extends SmtFissionTableComponent {

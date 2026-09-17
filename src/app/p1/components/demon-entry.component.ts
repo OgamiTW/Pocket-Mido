@@ -12,6 +12,7 @@ import { FusionEntryTableComponent } from '../../compendium/components/fusion-en
 import { DemonInheritsComponent } from '../../compendium/components/demon-inherits.component';
 import { DemonResistsComponent } from '../../compendium/components/demon-resists.component';
 import { DemonSkillsComponent } from '../../compendium/components/demon-skills.component';
+import { DemonQuickJumpComponent } from '../../compendium/components/demon-quick-jump.component';
 import { FusionMultiPairTableComponent } from '../../compendium/components/fusion-multi-pair-table.component';
 import { P1FissionTableComponent } from './p1-fission-table.component';
 import { DemonMissingComponent } from '../../compendium/components/demon-missing.component';
@@ -21,12 +22,16 @@ import { EnemyEntryComponent } from './enemy-entry.component';
   selector: 'app-demon-entry',
   imports: [
     DemonStatsComponent, FusionEntryTableComponent,
-    DemonInheritsComponent, DemonResistsComponent, DemonSkillsComponent,
+    DemonInheritsComponent, DemonResistsComponent, DemonSkillsComponent, DemonQuickJumpComponent,
     FusionMultiPairTableComponent, P1FissionTableComponent,
     DemonMissingComponent
   ],
   template: `
     @if (demon) {
+      <app-demon-quick-jump
+        [demons]="compendium.allDemons"
+        [current]="demon.name">
+      </app-demon-quick-jump>
       <app-demon-stats
         [title]="'Lvl ' + demon.lvl + ' ' + demon.race + ' ' + demon.name"
         [statHeaders]="compConfig.baseAtks"

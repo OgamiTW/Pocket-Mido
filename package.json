@@ -1,13 +1,13 @@
 {
-  "name": "megaten-fusion-tool",
+  "name": "pocket-mido-plus",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "prebuild": "node src/update-version.js",
-    "build": "ng build --aot --base-href /megaten-fusion-tool/",
+    "build": "node scripts/build.js",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "serve:local": "node local/serve.js"
   },
   "private": true,
   "dependencies": {
@@ -31,6 +31,7 @@
     "@types/jasmine": "~4.3.0",
     "istanbul-lib-instrument": "^6.0.3",
     "jasmine-core": "~4.6.0",
+    "jsdom": "^29.1.1",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
     "karma-coverage": "~2.2.0",

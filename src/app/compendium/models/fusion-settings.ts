@@ -1,6 +1,6 @@
 export type Toggles = { [name: string]: boolean };
-type SettingEntry = { name: string; caption: string; enabled: boolean };
-type CategoryEntry = { category: string; settings: SettingEntry[] };
+export type SettingEntry = { name: string; caption: string; enabled: boolean };
+export type CategoryEntry = { category: string; settings: SettingEntry[] };
 export type DemonUnlock = { category: string; unlocked: boolean; conditions: { [name: string]: string } };
 
 export class FusionSettings {

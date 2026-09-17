@@ -1,0 +1,67 @@
+name: Bug report
+description: Something in the tool is broken or shows the wrong thing
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time. If the problem is with the compendium data
+        itself rather than with this fork, it is worth checking whether the
+        original tool has it too — see the link at the bottom of the form.
+
+  - type: input
+    id: game
+    attributes:
+      label: Which game
+      placeholder: Shin Megami Tensei V, Persona 5 Royal, ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you did, and what you saw instead of what you expected.
+      placeholder: |
+        1. Opened the demon list for SMT V
+        2. Turned on Ailments
+        3. The search bar stayed narrower than the table
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: Shown at the bottom of every page.
+      placeholder: Pocket Mido+ v1.1.0
+    validations:
+      required: true
+
+  - type: input
+    id: browser
+    attributes:
+      label: Browser
+      placeholder: Firefox 130, Chrome 129, ...
+
+  - type: textarea
+    id: extra
+    attributes:
+      label: Anything else
+      description: Screenshots help a lot, especially for layout problems.
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        Wrong or missing compendium data usually belongs upstream, in
+        [aqiu384/megaten-fusion-tool](https://github.com/aqiu384/megaten-fusion-tool/issues).
+        Anything about searching, filtering, the fusion calculator layout or the
+        tracking features belongs here.

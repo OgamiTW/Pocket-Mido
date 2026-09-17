@@ -69,6 +69,7 @@ export abstract class SortedTableComponent<TData> {
 
   matchColWidths() {
     if (this.stickyHeader && this.hiddenHeader) {
+      this.stickyHeader.tableWidth = this.hiddenHeader.tableWidth;
       this.stickyHeader.colWidths = this.hiddenHeader.colWidths;
     }
   }

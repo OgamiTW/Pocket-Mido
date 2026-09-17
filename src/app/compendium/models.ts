@@ -19,6 +19,7 @@ export interface Demon {
   skills: { [skill: string]: number; };
   prereq?: string;
   affinities?: number[];
+  ailments?: number[];
   estats?: number[];
   area?: string;
   drop?: string;
@@ -199,6 +200,7 @@ export interface RecipeGeneratorConfig {
   races: string[];
   skillElems: string[];
   inheritElems: string[];
+  resistElems?: string[];
   displayElems: { [elem: string]: string };
   restrictInherits: boolean;
   triFissionCalculator: TripleCalculator;

@@ -3,7 +3,7 @@
     "Languages": ["en", "ja", "zh-cn", "ko"]
   },
   "AppComponent": {
-    "AppTitle": ["Megami Tensei Fusion Tools", "女神転生合体アプリ", "女神转生合体计算工具", "여신전생 합체 도구"],
+    "AppTitle": ["Pocket Mido+", "Pocket Mido+", "Pocket Mido+", "Pocket Mido+"],
     "Home": ["Game List (EN)", "ゲーム一覧 (日本語)", "游戏一览 (简体中文)", "게임 목록 (한국어)"],
     "HomeLink": ["home", "ja/home", "zh-cn/home", "ko/home"],
     "SaveOffline": ["Save Offline", "オフラインセーブ", "保存到本地", "오프라인 저장"],
@@ -18,7 +18,7 @@
     "SkillList": ["Skill List", "スキル一覧", "技能列表", "스킬 목록"],
     "FusionChart": ["Fusion Chart", "合体表", "合体表", "합체표"],
     "RecipGenerator": ["Recipe Generator", "合体レシピ", "合体配方生成", "합체 레시피 생성기"],
-    "FusionSettings": ["Fusion Settings", "DLC", "合成设置", "합체 설정"],
+    "FusionSettings": ["Fusion Filter", "DLC", "合成设置", "합체 설정"],
     "FusionCalculator": [" Fusion Calculator", " 合体アプリ", " 合体计算工具", " 합체 계산기"]
   },
   "DemonInheritsComponent": {
@@ -33,6 +33,7 @@
     "Price": ["Price", "価格", "Price", "가격"],
     "Stats": ["Stats", "ステータス", "Stats", "스테이터스"],
     "Resistances": ["Resistances", "耐性", "Resistances", "내성"],
+    "Ailment": ["Ailment", "状態異常", "Ailment", "상태이상"],
     "Affinities": ["Affinities", "スキル適正", "Affinities", "스킬 적성"],
     "Race": ["Race", "種族", "Race", "유형"],
     "Name": ["Name", "悪魔名", "Name", "이름"]
@@ -171,8 +172,8 @@
     "NoFusionsFound": ["No fusions found!", "合体なし", "No fusions found!", "합체 없음"]
   },
   "FusionSettingsComponent": {
-    "AppTitle": ["Fusion Settings - ", "合体設定 ", "合成设置 ", "합체 설정 - "],
-    "DlcTitle": ["Fusion Settings", "合体設定", "合成设置", "합체 설정"]
+    "AppTitle": ["Fusion Filter - ", "合体設定 ", "合成设置 ", "합체 설정 - "],
+    "DlcTitle": ["Fusion Filter", "合体設定", "合成设置", "합체 설정"]
   },
   "RecipeGeneratorComponent": {
     "AppTitle": ["Recipe Generator - ", "合体レシピ ", "合体配方生成 ", "레시피 생성기 - "],

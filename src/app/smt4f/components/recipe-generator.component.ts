@@ -28,6 +28,7 @@ export class RecipeGeneratorContainerComponent {
     fusionCalculator: this.fusionDataService.fusionCalculator,
     races: this.compConfig.races,
     skillElems: this.compConfig.skillElems,
+    resistElems: this.compConfig.resistElems,
     inheritElems: this.compConfig.affinityElems,
     displayElems: translateCompSet(Translations.ElementIcon, this.lang),
     restrictInherits: this.compConfig.appCssClasses.includes('sh2') || this.compConfig.appCssClasses.includes('smt3'),

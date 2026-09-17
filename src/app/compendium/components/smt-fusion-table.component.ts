@@ -31,6 +31,10 @@ export class SmtFusionTableComponent {
     .getFusions(this.currentDemon$(), this.compendium$(), this.fusionChart$())
     .map(this.toFusionPair$()(this.currentDemon$()))
   );
+  recipeFor$ = computed(() => {
+    const mine = this.currentDemon$();
+    return (pair: FusionPair) => ({ a: mine, b: pair.name1, result: pair.name2 });
+  });
   getNotes$ = computed<(pair: FusionPair) => string>(() => {
     const _ = this.currentDemon$(); return null;
   });

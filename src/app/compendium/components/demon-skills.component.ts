@@ -61,7 +61,7 @@ export class DemonSkillsComponent implements OnInit, OnChanges {
   @Input() elemOrder: { [elem: string]: number };
   @Input() skillLevels: { [id: string]: number };
   @Input() lang = 'en';
-  skills: Skill[];
+  skills: Skill[] = [];
   skillHeaderLen = 5;
   msgs = Translations.SkillListComponent;
 

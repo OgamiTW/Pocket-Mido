@@ -7,7 +7,9 @@
 @if (fusionPrereq) {
   <table class="list-table">
     <thead><tr><th class="title">{{ msgs.SpecialFusionCondition | translateComp:lang }}</th></tr></thead>
-    <tbody><tr><td>{{ fusionPrereq }}</td></tr></tbody>
+    <tbody><tr><td>
+      <app-spoiler>{{ fusionPrereq }}</app-spoiler>
+    </td></tr></tbody>
   </table>
 }
 @if (fusionEntries.length) {
@@ -29,6 +31,7 @@
     [leftBaseUrl]="hasFissionFromDemons ? '../../demons' : '../..'"
     [rightBaseUrl]="hasFissionFromDemons ? '../../demons' : '../..'"
     [getNotes]="getNotes$()"
+    [recipeFor]="recipeFor$()"
     [raceOrder]="fusionChart.raceOrder"
     [rowData]="fusionPairs"
     [inGameCurrencySymbol]="compendium.inGameCurrencySymbol">

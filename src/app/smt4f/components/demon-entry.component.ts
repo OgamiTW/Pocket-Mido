@@ -7,6 +7,7 @@ import { DemonStatsComponent } from '../../compendium/components/demon-stats.com
 import { DemonResistsComponent } from '../../compendium/components/demon-resists.component';
 import { DemonInheritsComponent } from '../../compendium/components/demon-inherits.component';
 import { DemonSkillsComponent } from '../../compendium/components/demon-skills.component';
+import { DemonQuickJumpComponent } from '../../compendium/components/demon-quick-jump.component';
 import { FusionEntryTableComponent } from '../../compendium/components/fusion-entry-table.component';
 import { SmtFusionsComponent } from '../../compendium/components/smt-fusions.component';
 import { DemonMissingComponent } from '../../compendium/components/demon-missing.component';
@@ -14,17 +15,23 @@ import { SkillCostToStringPipe, SkillLevelToStringPipe, TranslateCompPipe, Trans
 import { CurrentDemonService } from '../../compendium/current-demon.service';
 import { FusionDataService } from '../fusion-data.service';
 import Translations from '../../compendium/data/translations.json';
+import { hasRecipeGenerator } from './compendium.component';
 
 @Component({
   selector: 'app-demon-entry',
   imports: [
     CommonModule,
     DemonStatsComponent, DemonResistsComponent, DemonInheritsComponent,
-    DemonSkillsComponent, FusionEntryTableComponent, SmtFusionsComponent, DemonMissingComponent,
+    DemonSkillsComponent, DemonQuickJumpComponent, FusionEntryTableComponent, SmtFusionsComponent, DemonMissingComponent,
     TranslateCompPipe, TranslateElementLabelPipe, SkillCostToStringPipe, SkillLevelToStringPipe
   ],
   template: `
     @if (demon) {
+      <app-demon-quick-jump
+        [demons]="compendium.allDemons"
+        [current]="demon.name"
+        [canFuse]="canFuse">
+      </app-demon-quick-jump>
       <app-demon-stats
         [lang]="compConfig.lang"
         [title]="'Lvl ' + demon.lvl + ' ' + demon.race + ' ' + demon.name"
@@ -128,6 +135,10 @@ export class DemonEntryComponent {
   @Input() demon: Demon;
   @Input() compConfig: CompendiumConfig;
   @Input() compendium: Compendium;
+
+  get canFuse(): boolean {
+    return !!this.compConfig && hasRecipeGenerator(this.compConfig);
+  }
   @Input() lang = 'en';
   statMsgs = Translations.DemonStatsComponent;
   skillMsgs = Translations.SkillListComponent;

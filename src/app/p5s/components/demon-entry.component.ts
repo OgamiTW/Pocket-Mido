@@ -9,6 +9,7 @@ import { FusionDataService } from '../fusion-data.service';
 import { DemonStatsComponent } from '../../compendium/components/demon-stats.component';
 import { DemonResistsComponent } from '../../compendium/components/demon-resists.component';
 import { DemonSkillsComponent } from '../../compendium/components/demon-skills.component';
+import { DemonQuickJumpComponent } from '../../compendium/components/demon-quick-jump.component';
 import { SmtFusionsComponent } from '../../compendium/components/smt-fusions.component';
 import { DemonMissingComponent } from '../../compendium/components/demon-missing.component';
 import { TranslateElementLabelPipe } from '../../compendium/pipes';
@@ -17,12 +18,16 @@ import { TranslateElementLabelPipe } from '../../compendium/pipes';
   selector: 'app-demon-entry',
   imports: [
     RouterModule,
-    DemonStatsComponent, DemonResistsComponent, DemonSkillsComponent,
+    DemonStatsComponent, DemonResistsComponent, DemonSkillsComponent, DemonQuickJumpComponent,
     SmtFusionsComponent, DemonMissingComponent,
     TranslateElementLabelPipe
   ],
   template: `
     @if (demon) {
+      <app-demon-quick-jump
+        [demons]="compendium.allDemons"
+        [current]="demon.name">
+      </app-demon-quick-jump>
       <app-demon-stats
         [title]="'Lvl ' + demon.lvl + ' ' + demon.race + ' ' + demon.name"
         [price]="demon.price"

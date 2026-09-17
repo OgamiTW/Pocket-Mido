@@ -24,6 +24,21 @@ export class ColumnWidthsDirective {
     return colWidths;
   }
 
+  // The body table grows past 100% when it has more columns than fit; the
+  // sticky header has to grow with it or the filter bar ends up narrower.
+  get tableWidth(): number {
+    const table = this.elementRef.nativeElement.closest('table');
+    return table ? table.getBoundingClientRect().width : 0;
+  }
+
+  @Input() set tableWidth(width: number) {
+    const table = this.elementRef.nativeElement.closest('table');
+
+    if (table && width > 0) {
+      this.renderer.setStyle(table, 'width', `${width}px`);
+    }
+  }
+
   @Input() set colWidths(colWidths: number[]) {
     const rows = this.elementRef.nativeElement.children;
 

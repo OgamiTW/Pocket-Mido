@@ -2,15 +2,18 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Megami Tensei Fusion Tools</title>
-    <meta content="Fusion tool framework for Megami Tensei games." name="description">
+    <title>Pocket Mido+</title>
+    <meta content="Fusion tools for Megami Tensei games." name="description">
     <script type="text/javascript">
+      // GitHub Pages has no server-side routing, so it answers every deep link
+      // with this page. Hand the path back to the app as a query parameter and
+      // let its router put it back. $SITE_ROOT is filled in at build time.
       const l = window.location
       const csrParam = 'csr'
-      const siteRoot = '/megaten-fusion-tool'
+      const siteRoot = '$SITE_ROOT'
       const pathParams = encodeURIComponent(l.pathname.slice(siteRoot.length))
       const replacePath = (
-        l.protocol + '//' + l.hostname + (l.prot ? ':' + l.port : '') + siteRoot +
+        l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') + siteRoot + '/' +
         '?' + (l.search + '&' + csrParam + '=' + pathParams).slice(1) +
         l.hash
       )
@@ -18,6 +21,6 @@
     </script>
   </head>
   <body>
-    Please navigate manually to <code>/megaten-fusion-tool</code>
+    Please navigate manually to <code>$SITE_ROOT/</code>
   </body>
 </html>

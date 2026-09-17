@@ -4,6 +4,7 @@ import { DemonStatsComponent } from '../../compendium/components/demon-stats.com
 import { DemonResistsComponent } from '../../compendium/components/demon-resists.component';
 import { DemonInheritsComponent } from '../../compendium/components/demon-inherits.component';
 import { DemonSkillsComponent } from '../../compendium/components/demon-skills.component';
+import { DemonQuickJumpComponent } from '../../compendium/components/demon-quick-jump.component';
 import { SmtFusionsComponent } from '../../compendium/components/smt-fusions.component';
 import { DemonMissingComponent } from '../../compendium/components/demon-missing.component';
 import { CurrentDemonService } from '../../compendium/current-demon.service';
@@ -11,15 +12,21 @@ import { Demon, CompendiumConfig } from '../models';
 import { Compendium } from '../models/compendium';
 import { FusionDataService } from '../fusion-data.service';
 import { EnemyEntryComponent } from './enemy-entry.component';
+import { hasRecipeGenerator } from './compendium.component';
 
 @Component({
   selector: 'app-demon-entry',
   imports: [
     DemonStatsComponent, DemonResistsComponent, DemonInheritsComponent,
-    DemonSkillsComponent, SmtFusionsComponent, DemonMissingComponent
+    DemonSkillsComponent, DemonQuickJumpComponent, SmtFusionsComponent, DemonMissingComponent
   ],
   template: `
     @if (demon) {
+      <app-demon-quick-jump
+        [demons]="compendium.allDemons"
+        [current]="demon.name"
+        [canFuse]="canFuse">
+      </app-demon-quick-jump>
       <app-demon-stats
         [lang]="lang"
         [title]="'Lvl ' + demon.lvl + ' ' + demon.race + ' ' + demon.name"
@@ -68,6 +75,10 @@ export class DemonEntryComponent {
   @Input() name: string;
   @Input() demon: Demon;
   @Input() compendium: Compendium;
+
+  get canFuse(): boolean {
+    return !!this.compConfig && hasRecipeGenerator(this.compConfig);
+  }
   @Input() compConfig: CompendiumConfig;
   @Input() lang = 'en';
 }

@@ -6,6 +6,7 @@ import { Title } from '@angular/platform-browser';
 import { TranslateCompPipe } from './compendium/pipes';
 import { CurrentDemonService } from './compendium/current-demon.service';
 import Translations from './compendium/data/translations.json';
+import { APP_NAME, APP_VERSION } from './version';
 
 @Component({
   selector: 'app-root',
@@ -13,12 +14,17 @@ import Translations from './compendium/data/translations.json';
   providers: [Title, CurrentDemonService],
   template: `
     <div [ngClass]="currentGame">
-      <table style="margin-left: auto; margin-right: auto; width: 1080px;">
+      <table class="app-width">
         <thead>
           <tr>
             @for (link of msgs.HomeLink; track link; let i = $index) {
               <th [routerLink]="link" class="nav" routerLinkActive="active" [style.width]="navWidth">
                 <a [routerLink]="link">{{ msgs.Home[i] }}</a>
+              </th>
+            }
+            @for (link of innerLinks; track link) {
+              <th [routerLink]="link.route" class="nav" routerLinkActive="active" [style.width]="navWidth">
+                <a [routerLink]="link.route">{{ link.title | translateComp:lang }}</a>
               </th>
             }
             @for (link of otherLinks; track link) {
@@ -28,7 +34,7 @@ import Translations from './compendium/data/translations.json';
             }
           </tr>
           <tr>
-            <th [attr.colspan]="msgs.HomeLink.length + otherLinks.length" class="title">{{ msgs.AppTitle | translateComp:lang }}</th>
+            <th [attr.colspan]="msgs.HomeLink.length + otherLinks.length + innerLinks.length" class="title">{{ msgs.AppTitle | translateComp:lang }}</th>
           </tr>
         </thead>
       </table>
@@ -36,12 +42,19 @@ import Translations from './compendium/data/translations.json';
         @case (true) { <h4 style="text-align: center;">{{ msgs.NowLoading | translateComp:lang }}</h4> }
         @default     { <router-outlet></router-outlet> }
       }
-      <div style="text-align: center;">
-        <br>
-        <a href="https://www.youtube.com/watch?v=b1KfNEPKncQ">
-          https://www.youtube.com/watch?v=b1KfNEPKncQ
-        </a>
-      </div>
+      <footer class="app-footer app-width">
+        <p>
+          A personal fork of the fusion tool originally created and maintained by
+          <a href="https://github.com/aqiu384/megaten-fusion-tool">aqiu384</a>, whose work
+          everything here is built on. Unofficial and not affiliated with Atlus.
+        </p>
+        <p>
+          <a routerLink="/credits">Credits &amp; thanks</a>
+          <a routerLink="/help">How to use</a>
+          <a routerLink="/whats-new">What's new</a>
+        </p>
+        <p class="app-version">{{ appName }} v{{ appVersion }}</p>
+      </footer>
     </div>
   `,
   styleUrls: ['./app.component.css'],
@@ -55,12 +68,15 @@ export class AppComponent implements OnInit {
   };
 
   msgs = Translations.AppComponent;
+  appName = APP_NAME;
+  appVersion = APP_VERSION;
   otherLinks = [
-    { title: this.msgs.SaveOffline, link: 'https://aqiu384.github.io/megaten-database/how-to-use#save-offline' },
-    { title: this.msgs.Help, link: 'https://aqiu384.github.io/megaten-database/how-to-use' },
     { title: this.msgs.ReportIssue, link: 'https://github.com/aqiu384/megaten-fusion-tool/issues' }
   ];
-  navWidth = Math.round(1000 / (this.msgs.HomeLink.length + this.otherLinks.length)) / 10 + '%';
+  innerLinks = [
+    { title: this.msgs.Help, route: '/help' }
+  ];
+  navWidth = Math.round(1000 / (this.msgs.HomeLink.length + this.otherLinks.length + this.innerLinks.length)) / 10 + '%';
 
   lang = 'en';
   currentGame = 'home';

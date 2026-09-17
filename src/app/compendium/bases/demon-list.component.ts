@@ -10,6 +10,7 @@ export class DemonListComponent<TDemon extends Demon> extends SortedTableCompone
   @Input() inheritOrder: { [elem: string]: number };
   @Input() statHeaders: string[];
   @Input() resistHeaders: string[];
+  @Input() ailmentHeaders: string[];
   @Input() affinityHeaders: string[];
   protected sortFuns: ((a: TDemon, b: TDemon) => number)[] = [];
 
@@ -48,6 +49,15 @@ export class DemonListComponent<TDemon extends Demon> extends SortedTableCompone
     if (this.resistHeaders) {
       this.sortFuns = this.sortFuns.concat(
         this.resistHeaders.map((elem, index) => (a, b) => a.resists[index] - b.resists[index])
+      );
+    }
+
+    // Always built, even when the columns are hidden, so the sort indices the
+    // header hands back keep lining up with this list.
+    if (this.ailmentHeaders) {
+      this.sortFuns = this.sortFuns.concat(
+        this.ailmentHeaders.map((elem, index) => (a, b) =>
+          (a.ailments?.[index] ?? 0) - (b.ailments?.[index] ?? 0))
       );
     }
 

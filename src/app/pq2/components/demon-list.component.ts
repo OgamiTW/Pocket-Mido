@@ -17,6 +17,7 @@ import Translations from  '../../compendium/data/translations.json';
       [raceOrder]="raceOrder"
       [statHeaders]="statHeaders"
       [resistHeaders]="resistHeaders"
+      [ailmentHeaders]="ailmentHeaders"
       [inheritOrder]="inheritOrder"
       [rowData]="demons$()">
     </app-smt-demon-list>
@@ -31,6 +32,7 @@ export class DemonListContainerComponent extends DLCC {
   showEnemies = !this.showAllies;
 
   statHeaders = !this.showEnemies ? this.compConfig.baseStats : this.compConfig.enemyStats;
+  ailmentHeaders = this.compConfig.ailmentElems;
   resistHeaders = this.showEnemies || this.compConfig.hasDemonResists ? this.compConfig.resistElems : [];
   inheritOrder = !this.showEnemies && this.compConfig.inheritElems.length > 0 ? this.compConfig.elemOrder : null;
   appName = translateComp(!this.showEnemies ?

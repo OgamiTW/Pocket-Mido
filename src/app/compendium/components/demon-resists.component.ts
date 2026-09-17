@@ -14,7 +14,17 @@ import Translations from '../data/translations.json';
     @if (resistHeaders.length) {
       <table class="entry-table">
         <thead>
-          <tr><th [attr.colspan]="resistHeaders.length + ailmentHeaders.length" class="title">{{ title || (msgs.Resistances | translateComp:lang) }}</th></tr>
+          <tr>
+            <th [attr.colspan]="resistHeaders.length + ailmentHeaders.length" class="title">
+              <span class="head">
+                <span>{{ title || (msgs.Resistances | translateComp:lang) }}</span>
+                <button type="button"
+                  [ngClass]="['mods-btn', showMods ? 'on' : '']"
+                  title="Show or hide the damage multipliers under each affinity"
+                  (click)="showMods = !showMods">Multipliers</button>
+              </span>
+            </th>
+          </tr>
           <tr>
             <th [attr.colSpan]="resistHeaders.length">{{ msgs.Element | translateComp:lang }}</th>
             @if (ailmentHeaders.length) {
@@ -49,22 +59,45 @@ import Translations from '../data/translations.json';
               </td>
             }
           </tr>
-          <tr>
-            @for (resist of resists; track $index) {
-              <td [ngClass]="['resists', resist % 1024 === 40 ? 'no' : '']">
-                {{ resist | resmodToString }}
-              </td>
-            }
-            @for (resist of ailments; track $index) {
-              <td [ngClass]="['resists', resist % 1024 === 40 ? 'no' : '']">
-                {{ resist | resmodToString }}
-              </td>
-            }
-          </tr>
+          @if (showMods) {
+            <tr>
+              @for (resist of resists; track $index) {
+                <td [ngClass]="['resists', resist % 1024 === 40 ? 'no' : '']">
+                  {{ resist | resmodToString }}
+                </td>
+              }
+              @for (resist of ailments; track $index) {
+                <td [ngClass]="['resists', resist % 1024 === 40 ? 'no' : '']">
+                  {{ resist | resmodToString }}
+                </td>
+              }
+            </tr>
+          }
         </tbody>
       </table>
     }
-  `
+  `,
+  styles: [`
+    .head {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6em;
+    }
+    .mods-btn {
+      padding: 0.1em 0.45em;
+      color: white;
+      background-color: #333333;
+      border: solid 1px #444444;
+      border-radius: 3.5px;
+      cursor: pointer;
+      font: inherit;
+      font-size: 0.8em;
+      font-weight: normal;
+    }
+    .mods-btn:hover { color: yellow; }
+    .mods-btn.on { border-color: #66BBFF; color: #66BBFF; }
+  `]
 })
 export class DemonResistsComponent {
   @Input() title = '';
@@ -73,5 +106,6 @@ export class DemonResistsComponent {
   @Input() ailmentHeaders: string[] = [];
   @Input() ailments: number[] = [];
   @Input() lang = 'en';
+  showMods = true;
   msgs = Translations.DemonResistsComponent;
 }

@@ -15,6 +15,38 @@ a:hover {
   color: yellow;
 }
 
+/* One place decides how wide the tool is. Wide enough that the extra
+   resistance and ailment columns still fit, capped so it stays readable. */
+:root {
+  --app-width: min(96vw, 1500px);
+}
+
+.app-footer {
+  padding: 1.5em 1em 2.5em;
+  border-top: solid 1px #444444;
+  margin-top: 2em;
+  color: #aaaaaa;
+  font-size: 0.9em;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.app-footer p { margin: 0 0 0.5em; }
+.app-footer p:last-child { margin-bottom: 0; }
+.app-footer p a { margin: 0 0.6em; }
+
+.app-footer .app-version {
+  color: #777777;
+  font-family: monospace;
+  font-size: 0.9em;
+}
+
+.app-width {
+  width: var(--app-width);
+  margin-left: auto;
+  margin-right: auto;
+}
+
 /* Tables */
 h2 {
   text-align: center;

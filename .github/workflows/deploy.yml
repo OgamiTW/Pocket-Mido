@@ -1,0 +1,60 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    # Both, because this started life on master and GitHub defaults to main.
+    branches: [main, master]
+  # Lets you re-deploy from the Actions tab without pushing anything.
+  workflow_dispatch:
+
+# Only the newest deploy matters; cancel one already running, but let a running
+# deploy finish rather than leaving the site half published.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          # The Angular CLI in this project requires ^22.22.3, ^24.15.0 or >=26.
+          node-version: 22
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Test
+        run: npm test
+
+      - name: Build
+        # A project site lives at /<repo>/, so the base href and the 404
+        # redirect are derived from the repository name rather than hard-coded.
+        env:
+          BASE_HREF: /${{ github.event.repository.name }}/
+        run: npm run build
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist/megaten-fusion-tool/browser
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

@@ -1,6 +1,9 @@
 import { Route, Routes } from '@angular/router';
 
 import { HomeComponent } from './home.component';
+import { CreditsComponent } from './credits.component';
+import { HelpComponent } from './help.component';
+import { WhatsNewComponent } from './whats-new.component';
 import Translations from './compendium/data/translations.json';
 import FusionTools from './compendium/data/fusion-tools.json';
 
@@ -9,6 +12,9 @@ const appRoutesLookup: { [path: string]: Route } = {};
 const appRoutes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
+  { path: 'credits', component: CreditsComponent },
+  { path: 'help', component: HelpComponent },
+  { path: 'whats-new', component: WhatsNewComponent },
   { path: 'kmt1',   loadChildren: () => import('./kmt1/compendium.module').then(m => m.CompendiumRoutes) },
   { path: 'smt1',   loadChildren: () => import('./smt1/compendium.module').then(m => m.CompendiumRoutes) },
   { path: 'smt2',   loadChildren: () => import('./smt2/compendium.module').then(m => m.CompendiumRoutes) },

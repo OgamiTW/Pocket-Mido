@@ -5,12 +5,13 @@ import { toFusionEntry, toFusionPair } from '../models/conversions';
 import { CurrentDemonService } from '../current-demon.service';
 import { FusionEntryTableComponent } from './fusion-entry-table.component';
 import { FusionPairTableComponent } from './fusion-pair-table.component';
+import { SpoilerComponent } from './spoiler.component';
 import { TranslateCompPipe } from '../pipes';
 import Translations from '../data/translations.json';
 
 @Component({
   selector: 'app-smt-fission-table',
-  imports: [FusionEntryTableComponent, FusionPairTableComponent, TranslateCompPipe],
+  imports: [FusionEntryTableComponent, FusionPairTableComponent, SpoilerComponent, TranslateCompPipe],
   templateUrl: './smt-fission-table.component.html'
 })
 export class SmtFissionTableComponent {
@@ -42,6 +43,10 @@ export class SmtFissionTableComponent {
     .getFusions(this.currentDemon$(), this.compendium$(), this.fusionChart$())
     .map(this.toFusionPair$()(this.currentDemon$()))
   );
+  recipeFor$ = computed(() => {
+    const result = this.currentDemon$();
+    return (pair: FusionPair) => ({ a: pair.name1, b: pair.name2, result });
+  });
   getNotes$ = computed<(pair: FusionPair) => string>(() => {
     const _ = this.currentDemon$(); return null;
   });

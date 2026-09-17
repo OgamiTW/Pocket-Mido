@@ -5,9 +5,10 @@ import { FusionPairTableComponent } from '../../compendium/components/fusion-pai
 import { TranslateCompPipe } from '../../compendium/pipes';
 import { SmtFissionTableComponent } from '../../compendium/components/smt-fission-table.component';
 import { FusionDataService } from '../fusion-data.service';
+import { SpoilerComponent } from '../../compendium/components/spoiler.component';
 
 @Component({
-  imports: [FusionEntryTableComponent, FusionPairTableComponent, TranslateCompPipe],
+  imports: [FusionEntryTableComponent, FusionPairTableComponent, SpoilerComponent, TranslateCompPipe],
   templateUrl: '../../compendium/components/smt-fission-table.component.html'
 })
 export class NesFissionTableComponent extends SmtFissionTableComponent {

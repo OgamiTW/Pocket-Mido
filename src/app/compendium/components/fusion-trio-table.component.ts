@@ -3,10 +3,23 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
 import { PositionEdgesService } from '../../shared/position-edges.service';
+import { SearchBarComponent } from '../../shared/search/search-bar.component';
+import { matchesQueryText, parseQuery } from '../../shared/search/query-parser';
 import { SortedTableComponent, SortedTableHeaderComponent } from '../../shared/sorted-table.component';
 import { FusionTrio } from '../models';
 import { ColumnWidthsDirective } from '../../shared/column-widths.directive';
 import { PositionStickyDirective } from '../../shared/position-sticky.directive';
+
+export function trioText(trio: FusionTrio): string {
+  const parts = [trio.demon?.name, trio.demon?.race];
+
+  for (const fusion of trio.fusions || []) {
+    parts.push(fusion.d1?.name, fusion.d1?.race, fusion.d2?.name, fusion.d2?.race,
+      fusion.d3?.name, fusion.d3?.race);
+  }
+
+  return parts.filter(part => part).join(' ');
+}
 
 @Component({
   selector: 'tbody.app-fusion-trio-table-row',
@@ -66,10 +79,27 @@ export class FusionTrioTableRowComponent {
 
 @Component({
   selector: 'tfoot.app-fusion-trio-table-header',
-  imports: [CommonModule],
+  imports: [CommonModule, SearchBarComponent],
   template: `
     <tr>
       <th colspan="12" class="title">{{ title }}</th>
+    </tr>
+    <tr>
+      <th colspan="12" class="search-cell">
+        <app-search-bar
+          [query]="searchQuery"
+          [hotkey]="isSticky"
+          [matchCount]="matchCount"
+          [totalCount]="totalCount"
+          saveContext="recipes"
+          placeholder="ingredient or race"
+          (queryChanged)="searchQueryChanged.emit($event)">
+        </app-search-bar>
+        <div class="sort-row">
+          <button type="button" class="sort-btn" title="Back to the default row order"
+            (click)="sortResetRequested.emit()">Reset sort</button>
+        </div>
+      </th>
     </tr>
     <tr>
       <th class="sortable" rowspan="2" [style.width.%]="10" (click)="toggleHideAll()">Hide All</th>
@@ -95,9 +125,28 @@ export class FusionTrioTableRowComponent {
     span {
       color: transparent;
     }
+    th.search-cell { padding: 0.35em 0.5em; font-weight: normal; }
+    th.search-cell span { color: inherit; }
+    .sort-row { display: flex; padding-top: 0.35em; }
+    .sort-btn {
+      padding: 0.2em 0.5em;
+      color: white;
+      background-color: #333333;
+      border: solid 1px #444444;
+      border-radius: 3.5px;
+      cursor: pointer;
+      font: inherit;
+    }
+    .sort-btn:hover { color: yellow; }
   `]
 })
 export class FusionTrioTableHeaderComponent extends SortedTableHeaderComponent {
+  @Input() searchQuery = '';
+  @Input() matchCount = 0;
+  @Input() totalCount = 0;
+  @Input() isSticky = false;
+  searchQueryChanged = output<string>();
+  sortResetRequested = output<void>();
   @Input() title: string;
   @Input() leftHeader: string;
   @Input() getNotes: (demon1: string, demon2: string, demon3: string) => string;
@@ -124,8 +173,14 @@ export class FusionTrioTableHeaderComponent extends SortedTableHeaderComponent {
           [title]="title"
           [getNotes]="getNotes"
           [leftHeader]="leftHeader"
+          [isSticky]="true"
+          [searchQuery]="searchQuery"
+          [matchCount]="visibleRows.length"
+          [totalCount]="rowData.length"
           [sortFunIndex]="sortFunIndex"
           (hideAll)="toggleHideAll()"
+          (searchQueryChanged)="nextSearchQuery($event)"
+          (sortResetRequested)="resetSort()"
           (sortFunIndexChanged)="sortFunIndex = $event">
         </tfoot>
       </table>
@@ -137,12 +192,12 @@ export class FusionTrioTableHeaderComponent extends SortedTableHeaderComponent {
           [leftHeader]="leftHeader"
           [style.visibility]="'collapse'">
         </tfoot>
-        @if (!rowData.length) {
+        @if (!visibleRows.length) {
           <tbody>
             <tr><td colspan="12">No fusions found!</td></tr>
           </tbody>
         }
-        @for (data of rowData; track data; let i = $index) {
+        @for (data of visibleRows; track data; let i = $index) {
           <tbody
             class="app-fusion-trio-table-row"
             [trio]="data"
@@ -164,6 +219,32 @@ export class FusionTrioTableComponent extends SortedTableComponent<FusionTrio> i
   @Input() inGameCurrencySymbol: string;
   @Input() getNotes: (demon1: string, demon2: string, demon3: string) => string;
   showing: boolean[] = [];
+  searchQuery = '';
+  visibleRows: FusionTrio[] = [];
+
+  nextSearchQuery(query: string) {
+    this.searchQuery = query;
+    this.refilter();
+  }
+
+  resetSort() {
+    this.sortFunIndex = 0;
+  }
+
+  override sort() {
+    super.sort();
+    this.refilter();
+  }
+
+  // A trio matches when every word typed is found in the demon it makes or in
+  // any of the three ingredients.
+  private refilter() {
+    const parsed = parseQuery(this.searchQuery);
+
+    this.visibleRows = parsed.isEmpty
+      ? this.rowData
+      : this.rowData.filter(trio => matchesQueryText(parsed, trioText(trio)));
+  }
 
   protected sortFuns: ((a: FusionTrio, b: FusionTrio) => number)[] = [];
 

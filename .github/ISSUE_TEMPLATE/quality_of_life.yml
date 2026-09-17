@@ -1,0 +1,43 @@
+name: Quality-of-life idea
+description: Something that would make the tool less tedious to use
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This fork exists because of ideas like this one. Small annoyances are
+        just as welcome as big features — most of what is here started as
+        someone saying "it bugs me that...".
+
+  - type: textarea
+    id: friction
+    attributes:
+      label: What is tedious right now
+      description: What you are trying to do, and what gets in the way.
+      placeholder: |
+        Working out which demons can pass on a fire skill means opening them
+        one at a time.
+    validations:
+      required: true
+
+  - type: textarea
+    id: idea
+    attributes:
+      label: What would help
+      description: A rough idea is fine. No need to design it.
+    validations:
+      required: true
+
+  - type: input
+    id: where
+    attributes:
+      label: Where in the tool
+      placeholder: Demon list, fusion calculator, a demon's page, ...
+
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: Anything worth knowing
+      options:
+        - label: This would only apply to some games, not all of them
+        - label: I would be up for helping with it

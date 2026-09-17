@@ -6,6 +6,10 @@ import { FusionDataService } from '../fusion-data.service';
 import { translateComp } from '../../compendium/models/translator';
 import Translations from  '../../compendium/data/translations.json';
 
+export function hasRecipeGenerator(compConfig: CompendiumConfig): boolean {
+  return !compConfig.hasQrcodes && compConfig.hasManualInheritance;
+}
+
 function makeOtherLinks(compConfig: CompendiumConfig): { title: string, link: string }[] {
   const compComponent = Translations.CompendiumComponent;
   const otherLinks: { title: string, link: string }[] = [];
@@ -14,7 +18,7 @@ function makeOtherLinks(compConfig: CompendiumConfig): { title: string, link: st
     otherLinks.push({ title: translateComp(compComponent.ShadowList, compConfig.lang), link: 'shadows' });
   }
 
-  if (!compConfig.hasQrcodes && compConfig.hasManualInheritance) {
+  if (hasRecipeGenerator(compConfig)) {
     otherLinks.push({ title: translateComp(compComponent.RecipGenerator, compConfig.lang), link: 'recipes' });
   }
 

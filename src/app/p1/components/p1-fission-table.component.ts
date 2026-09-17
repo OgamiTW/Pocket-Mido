@@ -6,10 +6,11 @@ import { FusionEntryTableComponent } from '../../compendium/components/fusion-en
 import { FusionPairTableComponent } from '../../compendium/components/fusion-pair-table.component';
 import { TranslateCompPipe } from '../../compendium/pipes';
 import { FusionDataService } from '../fusion-data.service';
+import { SpoilerComponent } from '../../compendium/components/spoiler.component';
 
 @Component({
   selector: 'app-p1-fission-table',
-  imports: [FusionEntryTableComponent, FusionPairTableComponent, TranslateCompPipe],
+  imports: [FusionEntryTableComponent, FusionPairTableComponent, SpoilerComponent, TranslateCompPipe],
   templateUrl: '../../compendium/components/smt-fission-table.component.html'
 })
 export class P1FissionTableComponent extends SmtFissionTableComponent {

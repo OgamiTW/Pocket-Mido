@@ -12,7 +12,7 @@ import Translations from '../data/translations.json';
   selector: 'app-demon-compendium-header',
   imports: [CommonModule, RouterModule, TranslateCompPipe],
   template: `
-    <table [ngStyle]="{ marginLeft: 'auto', marginRight: 'auto', width: '1080px' }">
+    <table class="app-width">
       <thead>
         <tr>
           <th class="nav" routerLinkActive="active"
@@ -74,7 +74,7 @@ export class CompendiumHeaderComponent {
   imports: [CommonModule, RouterModule, PositionStickyDirective, CompendiumHeaderComponent],
   providers: [PositionEdgesService],
   template: `
-    <div [ngStyle]="{ marginLeft: 'auto', marginRight: 'auto', width: isChart ? 'auto' : '1080px' }">
+    <div [ngClass]="isChart ? '' : 'app-width'">
       @if (!isChart) {
         <div appPositionSticky>
           <app-demon-compendium-header appPositionSticky

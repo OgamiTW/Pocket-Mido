@@ -1,14 +1,42 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { SortedTableHeaderComponent } from '../../shared/sorted-table.component';
+import { SearchBarComponent, SearchHint } from '../../shared/search/search-bar.component';
+import { SkillFilterPanelComponent } from './skill-filter-panel.component';
 import { TranslateCompPipe } from '../pipes';
 import Translations from '../data/translations.json';
 
 @Component({
   selector: 'tfoot.app-skill-list-header',
-  imports: [CommonModule, TranslateCompPipe],
+  imports: [CommonModule, SearchBarComponent, SkillFilterPanelComponent, TranslateCompPipe],
   template: `
+    <tr>
+      <th class="search-cell" [attr.colSpan]="skillHeaderLen + acquireHeaderLen">
+        <app-search-bar
+          [query]="searchQuery"
+          [hotkey]="isSticky"
+          [hints]="searchHints"
+          [matchCount]="matchCount"
+          [totalCount]="totalCount"
+          [unknownTerms]="unknownTerms"
+          [placeholder]="searchPlaceholder"
+          saveContext="skills"
+          (queryChanged)="searchQueryChanged.emit($event)">
+        </app-search-bar>
+        @if (isSticky) {
+          <app-skill-filter-panel
+            [query]="searchQuery"
+            [elems]="filterElems"
+            [targets]="filterTargets"
+            [lang]="lang"
+            (queryChanged)="searchQueryChanged.emit($event)"
+            (cleared)="searchQueryChanged.emit('')"
+            (sortReset)="sortResetRequested.emit()">
+          </app-skill-filter-panel>
+        }
+      </th>
+    </tr>
     <tr>
       <th [attr.colSpan]="skillHeaderLen">{{ msgs.Skill | translateComp:lang }}</th>
       <th [attr.colSpan]="acquireHeaderLen">{{ msgs.HowToAcquire | translateComp:lang }}</th>
@@ -27,6 +55,7 @@ import Translations from '../data/translations.json';
   `,
   styles: [`
     th { white-space: nowrap; }
+    th.search-cell { padding: 0.35em 0.5em; }
     span { padding: 0.6em; }
     span.cost { padding: 1.2em; }
   `]
@@ -35,8 +64,19 @@ export class SkillListHeaderComponent extends SortedTableHeaderComponent impleme
   @Input() hasInherit = false;
   @Input() hasTarget = true;
   @Input() hasRank = true;
+  @Input() isSticky = false;
   @Input() lang = 'en';
   @Input() transferTitle = '';
+  @Input() searchQuery = '';
+  @Input() searchHints: SearchHint[] = [];
+  @Input() searchPlaceholder = '';
+  @Input() matchCount = 0;
+  @Input() totalCount = 0;
+  @Input() unknownTerms: string[] = [];
+  @Input() filterElems: string[] = [];
+  @Input() filterTargets: string[] = [];
+  searchQueryChanged = output<string>();
+  sortResetRequested = output<void>();
   skillHeaderLen = 4;
   acquireHeaderLen = 1;
   msgs = Translations.SkillListComponent;

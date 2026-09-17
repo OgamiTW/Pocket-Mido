@@ -1,0 +1,31 @@
+name: Build and test
+
+on:
+  pull_request:
+  push:
+    # Everything except the branch the deploy workflow already builds.
+    branches-ignore: [main, master]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Test
+        run: npm test
+
+      - name: Build
+        # Same build the deploy runs, so a change that only breaks in a
+        # production build is caught here rather than after merging.
+        env:
+          BASE_HREF: /${{ github.event.repository.name }}/
+        run: npm run build

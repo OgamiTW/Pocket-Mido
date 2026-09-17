@@ -15,6 +15,7 @@ import Translations from  '../../compendium/data/translations.json';
       [raceOrder]="raceOrder"
       [statHeaders]="compConfig.baseStats"
       [resistHeaders]="compConfig.resistElems"
+      [ailmentHeaders]="compConfig.ailmentElems"
       [affinityHeaders]="compConfig.hasNonelemInheritance ? null : compConfig.affinityElems"
       [rowData]="demons$()">
     </app-smt-demon-list>
